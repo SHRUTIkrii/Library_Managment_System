@@ -1,11 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
+const bookRoutes = require("./routes/bookRoutes");
 
 const app = express();
 
 const PORT = process.env.PORT || 3000;
 const DATABASEURL = process.env.DATABASEURL;
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use("/books", bookRoutes);
 
 mongoose.connect(DATABASEURL)
     .then(() => {
