@@ -3,13 +3,16 @@ const router = express.Router();
 
 const Book = require("../models/Book");
 
+
 router.get("/", async (req, res) => {
 
     try {
 
         const books = await Book.find();
 
-        res.render("books/index", { books: books });
+        res.render("books/index", {
+            books: books
+        });
 
     } catch (error) {
 
@@ -19,31 +22,46 @@ router.get("/", async (req, res) => {
 
 });
 
+
+
 router.get("/add", (req, res) => {
+
     res.render("books/add");
+
 });
+
+
 
 router.post("/add", async (req, res) => {
 
     try {
 
         const book = new Book({
+
             title: req.body.title,
+
             author: req.body.author,
+
             category: req.body.category,
+
             isbn: req.body.isbn,
+
             quantity: req.body.quantity
+
         });
 
         await book.save();
 
-        res.send("Book added successfully");
+        res.redirect("/books");
 
     } catch (error) {
+
         res.send(error.message);
+
     }
 
 });
+
 
 router.get("/edit/:id", async (req, res) => {
 
@@ -51,7 +69,13 @@ router.get("/edit/:id", async (req, res) => {
 
         const book = await Book.findById(req.params.id);
 
-        res.render("books/edit", { book: book });
+        if (!book) {
+            return res.send("Book not found");
+        }
+
+        res.render("books/edit", {
+            book: book
+        });
 
     } catch (error) {
 
@@ -61,17 +85,21 @@ router.get("/edit/:id", async (req, res) => {
 
 });
 
+
 router.post("/edit/:id", async (req, res) => {
 
     try {
 
-        await Book.findByIdAndUpdate(req.params.id, {
-            title: req.body.title,
-            author: req.body.author,
-            category: req.body.category,
-            isbn: req.body.isbn,
-            quantity: req.body.quantity
-        });
+        await Book.findByIdAndUpdate(
+            req.params.id,
+            {
+                title: req.body.title,
+                author: req.body.author,
+                category: req.body.category,
+                isbn: req.body.isbn,
+                quantity: req.body.quantity
+            }
+        );
 
         res.redirect("/books");
 
@@ -98,5 +126,6 @@ router.post("/delete/:id", async (req, res) => {
     }
 
 });
+
 
 module.exports = router;
