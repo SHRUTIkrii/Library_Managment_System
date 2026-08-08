@@ -1,0 +1,53 @@
+<h1>Issue Book</h1>
+
+<form action="/issues/add" method="POST">
+
+    <label>Student</label>
+
+    <select name="student" required>
+
+        <option value="">Select Student</option>
+
+        <% students.forEach((student) => { %>
+
+            <option value="<%= student._id %>">
+                <%= student.name %>
+            </option>
+
+        <% }) %>
+
+    </select>
+
+    <br><br>
+
+
+    <label>Book</label>
+
+    <select name="book" required>
+
+        <option value="">Select Book</option>
+
+        <% books.forEach((book) => { %>
+
+            <option value="<%= book._id %>">
+                <%= book.title %>
+            </option>
+
+        <% }) %>
+
+    </select>
+
+    <br><br>
+
+
+    <button type="submit">
+        Issue Book
+    </button>
+
+</form>
+
+<br>
+
+<a href="/issues">
+    Back to Issue / Return
+</a>

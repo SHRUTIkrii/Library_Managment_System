@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const Book = require("../models/Book");
+const Student = require("../models/Student");
+const Issue = require("../models/Issue");
 
 
 router.get("/", async (req, res) => {
@@ -9,10 +11,17 @@ router.get("/", async (req, res) => {
     try {
 
         const books = await Book.find();
+        const students = await Student.find();
 
-        res.render("books/index", {
-            books: books
-        });
+const issuedBooks = await Issue.countDocuments({
+    status: "Issued"
+});
+
+       res.render("books/index", {
+    books: books,
+    students: students,
+    issuedBooks: issuedBooks
+});
 
     } catch (error) {
 

@@ -1,0 +1,83 @@
+<h1>Issue / Return Books</h1>
+
+<a href="/issues/add">Issue New Book</a>
+
+<br><br>
+
+<table border="1">
+
+    <thead>
+
+        <tr>
+            <th>Sr No.</th>
+            <th>Student</th>
+            <th>Book</th>
+            <th>Issue Date</th>
+            <th>Return Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <% issues.forEach((issue, index) => { %>
+
+            <tr>
+
+                <td>
+                    <%= index + 1 %>
+                </td>
+
+                <td>
+                    <%= issue.student ? issue.student.name : "Unknown" %>
+                </td>
+
+                <td>
+                    <%= issue.book ? issue.book.title : "Unknown" %>
+                </td>
+
+                <td>
+                    <%= issue.issueDate.toLocaleDateString() %>
+                </td>
+
+                <td>
+                    <%= issue.returnDate
+                        ? issue.returnDate.toLocaleDateString()
+                        : "-" %>
+                </td>
+
+                <td>
+                    <%= issue.status %>
+                </td>
+                <td>
+
+    <% if (issue.status === "Issued") { %>
+
+        <form
+            action="/issues/return/<%= issue._id %>"
+            method="POST"
+        >
+
+            <button type="submit">
+                Return
+            </button>
+
+        </form>
+
+    <% } else { %>
+
+        Returned
+
+    <% } %>
+
+</td>
+
+            </tr>
+
+        <% }) %>
+
+    </tbody>
+
+</table>

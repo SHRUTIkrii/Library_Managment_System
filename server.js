@@ -4,6 +4,10 @@ require("dotenv").config();
 
 const bookRoutes = require("./routes/bookRoutes");
 
+const studentRoutes = require("./routes/studentRoutes");
+
+const issueRoutes = require("./routes/issueRoutes");
+
 const app = express();
 
 const PORT = process.env.PORT || 3000;
@@ -21,6 +25,8 @@ app.use(express.static("public"));
 
 // Routes
 app.use("/books", bookRoutes);
+app.use("/students", studentRoutes);
+app.use("/issues", issueRoutes);
 
 
 // EJS
